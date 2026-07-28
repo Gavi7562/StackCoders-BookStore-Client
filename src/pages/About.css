@@ -1,0 +1,233 @@
+.about-page {
+  min-height: 100vh;
+  padding-top: var(--navbar-height);
+}
+
+/* Hero */
+.about-hero {
+  padding: 80px 0;
+  background: var(--color-off-white);
+  text-align: center;
+}
+
+.about-hero-content {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.about-hero-icon {
+  color: var(--color-primary);
+  margin-bottom: 20px;
+}
+
+.about-hero-title {
+  font-size: 2.75rem;
+  font-weight: 900;
+  margin-bottom: 16px;
+}
+
+.about-hero-text {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--color-gray-500);
+}
+
+/* Stats */
+.about-stats {
+  padding: 48px 0;
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.about-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.about-stat-card {
+  text-align: center;
+  padding: 24px;
+}
+
+.about-stat-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.about-stat-label {
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+  font-weight: 500;
+}
+
+/* Story */
+.about-story {
+  padding: 80px 0;
+}
+
+.about-story-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.about-section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.about-section-title.centered {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.about-story-text {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--color-gray-600);
+  margin-bottom: 16px;
+}
+
+.about-visual-card {
+  background: var(--color-primary-bg);
+  border-radius: var(--radius-xl);
+  padding: 48px;
+  text-align: center;
+}
+
+.about-visual-icon {
+  color: var(--color-primary);
+  margin-bottom: 16px;
+}
+
+.about-visual-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.about-visual-card p {
+  font-size: 0.9375rem;
+  color: var(--color-gray-500);
+}
+
+/* Values */
+.about-values {
+  padding: 80px 0;
+  background: var(--color-off-white);
+}
+
+.about-values-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.about-value-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  border: 1px solid var(--color-gray-100);
+  transition: all var(--transition-base);
+}
+
+.about-value-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.about-value-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+}
+
+.about-value-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.about-value-text {
+  font-size: 0.9375rem;
+  color: var(--color-gray-500);
+  line-height: 1.6;
+}
+
+/* CTA */
+.about-cta {
+  padding: 80px 0;
+}
+
+.about-cta-card {
+  text-align: center;
+  padding: 64px;
+  background: var(--color-gray-900);
+  border-radius: var(--radius-xl);
+}
+
+.about-cta-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-white);
+  margin-bottom: 12px;
+}
+
+.about-cta-text {
+  font-size: 1.0625rem;
+  color: var(--color-gray-400);
+  margin-bottom: 32px;
+}
+
+.about-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 32px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all var(--transition-base);
+}
+
+.about-cta-btn:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(46, 125, 50, 0.35);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-hero {
+    padding: 48px 0;
+  }
+
+  .about-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-story-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .about-values-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-cta-card {
+    padding: 40px 24px;
+  }
+}
