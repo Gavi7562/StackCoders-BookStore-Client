@@ -1,34 +1,29 @@
 import api from './api';
 
-// Placeholder authentication service
-// Will be connected to Java Spring Boot backend with JWT
-
 const authService = {
   login: async (email, password) => {
-    // Placeholder: POST /auth/login
     return api.post('/auth/login', { email, password });
   },
 
   signup: async (userData) => {
-    // Placeholder: POST /auth/register
-    return api.post('/auth/register', userData);
+    const { confirmPassword, ...request } = userData;
+    return api.post('/auth/register', request);
   },
 
   logout: async () => {
-    // Placeholder: POST /auth/logout
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    return api.post('/auth/logout');
+    try {
+      return await api.post('/auth/logout');
+    } finally {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+    }
   },
 
   refreshToken: async () => {
-    // Placeholder: POST /auth/refresh
-    const refreshToken = localStorage.getItem('refreshToken');
-    return api.post('/auth/refresh', { refreshToken });
+    return api.post('/auth/refresh');
   },
 
   getCurrentUser: async () => {
-    // Placeholder: GET /auth/me
     return api.get('/auth/me');
   },
 };

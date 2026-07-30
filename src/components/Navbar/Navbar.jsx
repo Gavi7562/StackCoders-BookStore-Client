@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { FiMenu, FiX, FiSearch, FiUser } from 'react-icons/fi';
 import { FaBookOpen } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
+import { useProducts } from '../../context/ProductContext';
 import SearchBar from '../SearchBar/SearchBar';
 import './Navbar.css';
 
@@ -11,6 +12,7 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const { isAuthenticated, user, logout } = useAuth();
+  const { searchProducts } = useProducts();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,9 +34,7 @@ const Navbar = () => {
 
   const navLinks = [
     { to: '/', label: 'Home' },
-    { to: '/categories', label: 'Categories' },
-    { to: '/new-arrivals', label: 'New Arrivals' },
-    { to: '/best-sellers', label: 'Best Sellers' },
+    { to: '/#categories', label: 'Categories' },
     { to: '/about', label: 'About' },
     { to: '/contact', label: 'Contact' },
   ];
@@ -79,8 +79,9 @@ const Navbar = () => {
             <div className="navbar-user-menu">
               <button className="navbar-user-btn">
                 <FiUser size={18} />
-                <span>{user?.name || 'Account'}</span>
+                <span>{user?.username || user?.name || 'Account'}</span>
               </button>
+              <NavLink to="/profile" className="navbar-signin">Profile</NavLink>
               <button className="navbar-logout-btn" onClick={handleLogout}>
                 Logout
               </button>
@@ -110,8 +111,12 @@ const Navbar = () => {
         <div className="navbar-search-dropdown">
           <div className="container">
             <SearchBar
-              onSearch={(q) => { console.log('Search:', q); setSearchOpen(false); }}
-              placeholder="Search books, authors..."
+              onSearch={(q) => {
+                searchProducts(q);
+                navigate('/');
+                setSearchOpen(false);
+              }}
+              placeholder="Search books, authors, categories..."
             />
           </div>
         </div>
@@ -135,8 +140,11 @@ const Navbar = () => {
             <>
               <div className="navbar-mobile-user">
                 <FiUser size={18} />
-                <span>{user?.name || 'Account'}</span>
+                <span>{user?.username || user?.name || 'Account'}</span>
               </div>
+              <NavLink to="/profile" className="navbar-mobile-link" onClick={() => setMobileMenuOpen(false)}>
+                Profile
+              </NavLink>
               <button className="navbar-mobile-link navbar-mobile-logout" onClick={handleLogout}>
                 Logout
               </button>

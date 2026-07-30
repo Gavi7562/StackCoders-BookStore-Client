@@ -18,6 +18,7 @@ const Login = () => {
   });
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
+  const [formError, setFormError] = useState('');
 
   const handleChange = useCallback((e) => {
     const { name, value, type, checked } = e.target;
@@ -59,9 +60,12 @@ const Login = () => {
 
     if (allErrors.email || allErrors.password) return;
 
+    setFormError('');
     const result = await login(formData.email, formData.password);
     if (result?.success) {
       navigate('/');
+    } else {
+      setFormError('Invalid credentials. Please give valid credentials.');
     }
   };
 
@@ -91,6 +95,11 @@ const Login = () => {
             </div>
 
             <form className="login-form" onSubmit={handleSubmit} noValidate>
+              {formError && (
+                <div style={{ color: 'red', marginBottom: '1rem', textAlign: 'center', backgroundColor: '#ffebe9', padding: '10px', borderRadius: '4px' }}>
+                  {formError}
+                </div>
+              )}
               <InputField
                 label="Email"
                 name="email"

@@ -11,7 +11,7 @@ const BookGrid = ({ books, title }) => {
       )}
       <div className="book-grid">
         {books.map((book, index) => (
-          <div key={book.id || index} className="book-grid-item" style={{ animationDelay: `${index * 0.05}s` }}>
+          <div key={book.productId || book.id || index} className="book-grid-item" style={{ animationDelay: `${index * 0.05}s` }}>
             <BookCard book={book} />
           </div>
         ))}

@@ -1,55 +1,40 @@
-const API_BASE_URL = 'http://localhost:8080/api';
+import axios from 'axios';
 
-const api = {
-  get: async (endpoint) => {
-    const token = localStorage.getItem('accessToken');
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }),
-      },
-    });
-    return response.json();
-  },
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080';
 
-  post: async (endpoint, data) => {
-    const token = localStorage.getItem('accessToken');
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }),
-      },
-      body: JSON.stringify(data),
-    });
-    return response.json();
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
   },
+});
 
-  put: async (endpoint, data) => {
-    const token = localStorage.getItem('accessToken');
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }),
-      },
-      body: JSON.stringify(data),
-    });
-    return response.json();
-  },
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
-  delete: async (endpoint) => {
-    const token = localStorage.getItem('accessToken');
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }),
-      },
+api.interceptors.response.use(
+  (response) => response.data,
+  (error) => {
+    const status = error.response?.status;
+    const payload = error.response?.data;
+    const message = payload?.message ?? (
+      status === 401 ? 'Please login to continue.' :
+      status === 404 ? 'Requested resource was not found.' :
+      status === 500 ? 'Server error. Please try again later.' :
+      'Something went wrong. Please try again.'
+    );
+
+    return Promise.reject({
+      status,
+      message,
+      errors: payload?.errors ?? [],
     });
-    return response.json();
-  },
-};
+  }
+);
 
 export default api;

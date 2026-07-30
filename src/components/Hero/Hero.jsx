@@ -16,7 +16,7 @@ const Hero = () => {
             Your perfect read is just a click away.
           </p>
           <div className="hero-actions">
-            <Link to="/categories" className="hero-btn-primary">
+            <Link to="/#categories" className="hero-btn-primary">
               Browse Books
               <FiArrowRight size={18} />
             </Link>
