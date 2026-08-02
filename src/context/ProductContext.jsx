@@ -8,6 +8,7 @@ export const ProductProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [activeQuery, setActiveQuery] = useState('');
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const runRequest = async (request) => {
     setLoading(true);
@@ -61,11 +62,13 @@ export const ProductProvider = ({ children }) => {
     loading,
     error,
     activeQuery,
+    filtersOpen,
+    setFiltersOpen,
     fetchProducts,
     searchProducts,
     filterProducts,
     sortProducts,
-  }), [products, groupedProducts, authors, loading, error, activeQuery]);
+  }), [products, groupedProducts, authors, loading, error, activeQuery, filtersOpen]);
 
   return <ProductContext.Provider value={value}>{children}</ProductContext.Provider>;
 };

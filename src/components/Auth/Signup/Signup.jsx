@@ -179,7 +179,7 @@ const Signup = () => {
                                     placeholder="Create a password"
                                     icon={FiLock}
                                 />
-                                {showPasswordChecks && formData.password && (
+                                {/* {showPasswordChecks && formData.password && (
                                     <div className="password-checks">
                                         <div className={`password-check ${passwordChecks?.minLength ? 'check-pass' : ''}`}>
                                             <span className="check-icon">{passwordChecks?.minLength ? '✓' : '✖'}</span>
@@ -202,7 +202,7 @@ const Signup = () => {
                                             1 special character
                                         </div>
                                     </div>
-                                )}
+                                )} */}
                             </div>
 
                             <InputField

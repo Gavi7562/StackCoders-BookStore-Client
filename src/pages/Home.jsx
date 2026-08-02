@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { FiFilter, FiX } from 'react-icons/fi';
-import Hero from '../components/Hero/Hero';
 import BookGrid from '../components/BookGrid/BookGrid';
 import FiltersPanel from '../components/FiltersPanel/FiltersPanel';
 import Loader from '../components/Loader/Loader';
@@ -8,24 +7,17 @@ import { useProducts } from '../context/ProductContext';
 import './Home.css';
 
 const Home = () => {
-  const [filtersOpen, setFiltersOpen] = useState(false);
-  const { products, loading, error, activeQuery } = useProducts();
+  const { products, loading, error, activeQuery, filtersOpen, setFiltersOpen } = useProducts();
 
   return (
     <main className="home-page">
-      <Hero />
 
       <section className="catalog-section" id="categories">
         <div className="container">
           <div className="catalog-toolbar">
             <div>
-              <h2 className="section-title">{activeQuery ? `Search results for "${activeQuery}"` : 'Book Catalog'}</h2>
-              <p className="section-subtitle">Browse books from the live catalog</p>
+              {activeQuery && <h2 className="section-title">Search results for "{activeQuery}"</h2>}
             </div>
-            <button className="catalog-filter-toggle" type="button" onClick={() => setFiltersOpen((open) => !open)}>
-              {filtersOpen ? <FiX size={18} /> : <FiFilter size={18} />}
-              {filtersOpen ? 'Hide Filters' : 'Filter Books'}
-            </button>
           </div>
 
           <div className={`catalog-layout ${filtersOpen ? 'filters-visible' : ''}`}>

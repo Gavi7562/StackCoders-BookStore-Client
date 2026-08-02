@@ -1,0 +1,72 @@
+.confirmation-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    min-height: 70vh;
+}
+
+.confirmation-card {
+    background: var(--color-white);
+    padding: 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    border-top: 8px solid var(--color-success);
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: var(--color-success);
+    margin-bottom: 20px;
+}
+
+.confirmation-card h1 {
+    font-size: 2rem;
+    color: var(--color-gray-900);
+    margin-bottom: 8px;
+}
+
+.success-message {
+    font-size: 1.2rem;
+    color: var(--color-success);
+    font-weight: 600;
+    margin-bottom: 32px;
+}
+
+.order-details {
+    background: var(--color-gray-50);
+    padding: 20px;
+    border-radius: var(--radius-md);
+    margin-bottom: 24px;
+}
+
+.order-details p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.order-details p:last-child {
+    margin-bottom: 0;
+}
+
+.order-details span {
+    font-weight: 600;
+    color: var(--color-gray-600);
+}
+
+.delivery-message {
+    font-style: italic;
+    color: var(--color-gray-600);
+    margin-bottom: 32px;
+}
+
+.confirmation-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}

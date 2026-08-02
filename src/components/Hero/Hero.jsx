@@ -24,7 +24,7 @@ const Hero = () => {
               New Arrivals
             </Link>
           </div>
-          <div className="hero-stats">
+          {/* <div className="hero-stats">
             <div className="hero-stat">
               <span className="hero-stat-number">10K+</span>
               <span className="hero-stat-label">Books</span>
@@ -38,8 +38,8 @@ const Hero = () => {
             <div className="hero-stat">
               <span className="hero-stat-number">50K+</span>
               <span className="hero-stat-label">Readers</span>
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
         </div>
         <div className="hero-visual">
           <div className="hero-books-stack">

@@ -1,5 +1,6 @@
 import { useAuth } from '../context/AuthContext';
 import './Profile.css';
+import { NavLink } from 'react-router-dom';
 
 const Profile = () => {
   const { user, loading, error } = useAuth();
@@ -12,10 +13,10 @@ const Profile = () => {
         {error && <p className="profile-error">{error}</p>}
         {user && (
           <section className="profile-panel">
-            <div><span>Username</span><strong>{user.username ?? user.name}</strong></div>
-            <div><span>Email</span><strong>{user.email}</strong></div>
-            <div><span>Role</span><strong>{user.role}</strong></div>
+            <div><span>Username</span><strong>{user.username ?? user.name ?? 'Not available'}</strong></div>
+            <div><span>Email</span><strong>{user.email ?? 'Not available'}</strong></div>
             <div><span>Account Created</span><strong>{user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Not available'}</strong></div>
+            {/* <NavLink to="/orders" className="navbar-signin">Orders</NavLink> */}
           </section>
         )}
       </div>

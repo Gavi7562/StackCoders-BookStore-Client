@@ -1,18 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { FiMenu, FiX, FiSearch, FiUser } from 'react-icons/fi';
+import { FiMenu, FiX, FiSearch, FiUser, FiShoppingCart, FiFilter } from 'react-icons/fi';
 import { FaBookOpen } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
 import { useProducts } from '../../context/ProductContext';
+import { CartContext } from '../../context/CartContext';
 import SearchBar from '../SearchBar/SearchBar';
 import './Navbar.css';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const dropdownTimeoutRef = useRef(null);
   const { isAuthenticated, user, logout } = useAuth();
-  const { searchProducts } = useProducts();
+  const { cart } = useContext(CartContext);
+  const { searchProducts, filtersOpen, setFiltersOpen } = useProducts();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,15 +37,39 @@ const Navbar = () => {
 
   const navLinks = [
     { to: '/', label: 'Home' },
-    { to: '/#categories', label: 'Categories' },
     { to: '/about', label: 'About' },
-    { to: '/contact', label: 'Contact' },
   ];
 
   const handleLogout = () => {
     logout();
     navigate('/');
     setMobileMenuOpen(false);
+    setProfileDropdownOpen(false);
+  };
+
+  const getUserName = () => user?.username || user?.name || 'Account';
+  const getInitial = () => getUserName().charAt(0).toUpperCase();
+
+  const handleMouseEnterProfile = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setProfileDropdownOpen(true);
+  };
+
+  const handleMouseLeaveProfile = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setProfileDropdownOpen(false);
+    }, 400);
+  };
+
+  const getAvatarColor = (name) => {
+    const colors = ['#1abc9c', '#3498db', '#9b59b6', '#e67e22', '#e74c3c', '#f1c40f', '#34495e'];
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return colors[Math.abs(hash) % colors.length];
   };
 
   return (
@@ -64,27 +91,50 @@ const Navbar = () => {
               {link.label}
             </NavLink>
           ))}
+          <button className="catalog-filter-toggle" style={{ marginLeft: '4px' }} type="button" onClick={() => {
+            navigate('/#categories');
+            setFiltersOpen((open) => !open);
+          }}>
+            {filtersOpen ? 'Hide Filters' : 'Filter Books'}
+          </button>
         </nav>
 
+        <div className="navbar-search-inline">
+          <SearchBar
+            onSearch={(q) => {
+              searchProducts(q);
+              navigate('/');
+            }}
+            placeholder="Search books, authors, categories..."
+          />
+        </div>
+
         <div className="navbar-actions">
-          <button
-            className="navbar-icon-btn"
-            onClick={() => setSearchOpen(!searchOpen)}
-            aria-label="Search"
-          >
-            <FiSearch size={20} />
-          </button>
 
           {isAuthenticated ? (
             <div className="navbar-user-menu">
-              <button className="navbar-user-btn">
-                <FiUser size={18} />
-                <span>{user?.username || user?.name || 'Account'}</span>
-              </button>
-              <NavLink to="/profile" className="navbar-signin">Profile</NavLink>
-              <button className="navbar-logout-btn" onClick={handleLogout}>
-                Logout
-              </button>
+              <Link to="/cart" className="navbar-cart-icon">
+                <FiShoppingCart size={22} />
+                {cart?.totalItems > 0 && <span className="cart-badge">{cart.totalItems}</span>}
+              </Link>
+
+              <div className="navbar-profile-container" onMouseLeave={handleMouseLeaveProfile}>
+                <div
+                  className="navbar-avatar"
+                  style={{ backgroundColor: getAvatarColor(getUserName()) }}
+                  onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+                  onMouseEnter={handleMouseEnterProfile}
+                >
+                  {getInitial()}
+                </div>
+                {profileDropdownOpen && (
+                  <div className="navbar-profile-dropdown" onMouseEnter={handleMouseEnterProfile}>
+                    <Link to="/profile" className="dropdown-item" onClick={() => setProfileDropdownOpen(false)}>Profile</Link>
+                    <Link to="/orders" className="dropdown-item" onClick={() => setProfileDropdownOpen(false)}>Orders</Link>
+                    <button className="dropdown-item logout-item" onClick={handleLogout}>Logout</button>
+                  </div>
+                )}
+              </div>
             </div>
           ) : (
             <div className="navbar-auth-buttons">
@@ -107,21 +157,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {searchOpen && (
-        <div className="navbar-search-dropdown">
-          <div className="container">
-            <SearchBar
-              onSearch={(q) => {
-                searchProducts(q);
-                navigate('/');
-                setSearchOpen(false);
-              }}
-              placeholder="Search books, authors, categories..."
-            />
-          </div>
-        </div>
-      )}
-
       <div className={`navbar-mobile-menu ${mobileMenuOpen ? 'mobile-menu-open' : ''}`}>
         <nav className="navbar-mobile-links">
           {navLinks.map((link) => (
@@ -139,11 +174,19 @@ const Navbar = () => {
           {isAuthenticated ? (
             <>
               <div className="navbar-mobile-user">
-                <FiUser size={18} />
-                <span>{user?.username || user?.name || 'Account'}</span>
+                <div
+                  className="navbar-avatar-mobile"
+                  style={{ backgroundColor: getAvatarColor(getUserName()) }}
+                >
+                  {getInitial()}
+                </div>
+                <span>{getUserName()}</span>
               </div>
               <NavLink to="/profile" className="navbar-mobile-link" onClick={() => setMobileMenuOpen(false)}>
                 Profile
+              </NavLink>
+              <NavLink to="/orders" className="navbar-mobile-link" onClick={() => setMobileMenuOpen(false)}>
+                Orders
               </NavLink>
               <button className="navbar-mobile-link navbar-mobile-logout" onClick={handleLogout}>
                 Logout
