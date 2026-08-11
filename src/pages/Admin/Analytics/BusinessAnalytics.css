@@ -1,0 +1,92 @@
+.business-analytics {
+    background-color: transparent;
+}
+
+.analytics-header {
+    margin-bottom: 20px;
+}
+
+.analytics-header h3 {
+    color: #2C3E50;
+    margin: 0;
+}
+
+.analytics-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.analytics-tabs button {
+    padding: 10px 20px;
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #4A5568;
+    transition: all 0.2s;
+}
+
+.analytics-tabs button:hover {
+    background-color: #F8FAFC;
+}
+
+.analytics-tabs button.active {
+    background-color: #6B1D2F;
+    color: #FFFFFF;
+    border-color: #6B1D2F;
+}
+
+.analytics-controls {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.control-group label {
+    font-weight: 500;
+    color: #2D3748;
+}
+
+.control-group input,
+.control-group select {
+    padding: 8px 12px;
+    border: 1px solid #E2E8F0;
+    border-radius: 6px;
+}
+
+.fetch-btn {
+    padding: 8px 16px;
+    background-color: #2C3E50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.fetch-btn:hover {
+    background-color: #1A202C;
+}
+
+.loading-state {
+    text-align: center;
+    padding: 40px;
+    font-size: 1.1rem;
+    color: #6B1D2F;
+}
+
+.no-data {
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border-radius: 12px;
+}

@@ -23,7 +23,6 @@ const Signup = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        role: 'USER', // default role
     });
 
     const [errors, setErrors] = useState({});
@@ -37,7 +36,6 @@ const Signup = () => {
         username: validateUsername,
         email: validateEmail,
         password: validatePassword,
-        role: () => '', // no specific UI validation for simple select
         confirmPassword: (val) => validateConfirmPassword(formData.password, val),
     };
 
@@ -82,7 +80,6 @@ const Signup = () => {
             username: formData.username,
             email: formData.email,
             password: formData.password,
-            role: formData.role,
             confirmPassword: formData.confirmPassword
         });
 
@@ -144,23 +141,6 @@ const Signup = () => {
                                 placeholder="abc@gmail.com"
                                 icon={FiMail}
                             />
-
-                            <div style={{ marginBottom: '1.5rem', display: 'flex', flexDirection: 'column' }}>
-                                <label style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Role</label>
-                                <div style={{ position: 'relative' }}>
-                                    <FiShield size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)' }} />
-                                    <select
-                                        name="role"
-                                        value={formData.role}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        style={{ width: '100%', padding: '0.75rem 1rem 0.75rem 2.875rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-secondary)', fontSize: '0.9375rem', color: 'var(--text-primary)', outline: 'none' }}
-                                    >
-                                        <option value="USER">User</option>
-                                        <option value="ADMIN">Admin</option>
-                                    </select>
-                                </div>
-                            </div>
 
                             <div className="signup-password-group">
                                 <InputField
@@ -238,8 +218,8 @@ const Signup = () => {
                         </p>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 

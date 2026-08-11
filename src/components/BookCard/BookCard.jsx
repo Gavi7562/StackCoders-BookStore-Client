@@ -14,12 +14,28 @@ const BookCard = ({ book }) => {
   const [loading, setLoading] = useState(false);
   const title = book.bookName ?? book.title ?? 'Untitled Book';
   const coverImage = book.imageUrl ?? book.imageUrls?.[0];
+  const author = book.author ?? 'Unknown Author';
+  const description = book.description ?? 'No description available.';
+
+  const originalPrice = book.originalPrice || null;
+  const price = book.price || 0;
+  const discountPercentage = originalPrice && originalPrice > price
+    ? Math.round(((originalPrice - price) / originalPrice) * 100)
+    : 0;
+
+  const quantity = book.quantity ?? book.stock ?? 10;
+
+  let stockStatus = { label: "🟢 In Stock", class: "in-stock" };
+  if (quantity <= 0) {
+    stockStatus = { label: "🔴 Out Of Stock", class: "out-of-stock" };
+  } else if (quantity < 5) {
+    stockStatus = { label: "🟡 Low Stock", class: "low-stock" };
+  }
 
   const handleAddToCart = async () => {
     try {
       setLoading(true);
       await addToCart(book.productId || book.id, 1);
-      // Optional: show a toast notification here
     } catch (err) {
       alert(err.message || 'Failed to add to cart');
     } finally {
@@ -28,7 +44,7 @@ const BookCard = ({ book }) => {
   };
 
   return (
-    <article className="book-card">
+    <article className="book-card" aria-label={`Book: ${title}`}>
       <div className="book-card-image-wrapper">
         {coverImage ? (
           <img className="book-card-image" src={coverImage} alt={title} loading="lazy" />
@@ -38,15 +54,36 @@ const BookCard = ({ book }) => {
           </div>
         )}
       </div>
+
       <div className="book-card-body">
-        <h4 className="book-card-title">{title}</h4>
-        <p className="book-card-author">by {book.author ?? 'Unknown Author'}</p>
-        <p className="book-card-description">{book.description ?? 'No description available.'}</p>
+        <h4 className="book-card-title" title={title}>{title}</h4>
+        <p className="book-card-author" title={author}>By {author}</p>
+
+        <div className="book-card-price-container">
+          <span className="price-current">{formatPrice(price)}</span>
+          {discountPercentage > 0 && (
+            <>
+              <span className="price-original">{formatPrice(originalPrice)}</span>
+              <span className="price-discount">{discountPercentage}% Off</span>
+            </>
+          )}
+        </div>
+
+        <p className="book-card-description">{description}</p>
+
+        <div className={`book-card-stock ${stockStatus.class}`}>
+          {stockStatus.label}
+        </div>
+
         <div className="book-card-footer">
-          <div className="book-card-price">
-            <span className="price-current">{formatPrice(book.price)}</span>
-          </div>
-          <Button variant="primary" size="sm" onClick={handleAddToCart} disabled={loading}>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={handleAddToCart}
+            disabled={loading || quantity <= 0}
+            aria-label={`Add ${title} to cart`}
+            style={{ width: '100%', color: 'white' }}
+          >
             {loading ? 'Adding...' : 'Add To Cart'}
           </Button>
         </div>

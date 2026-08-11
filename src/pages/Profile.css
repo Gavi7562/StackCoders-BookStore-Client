@@ -1,61 +1,95 @@
 .profile-page {
-  min-height: 70vh;
-  padding: 120px 0 64px;
-  background: var(--color-off-white);
-}
-
-.profile-container {
-  max-width: 760px;
+  padding: 4rem 1rem;
+  background-color: #f9f9f9;
+  min-height: calc(100vh - 80px);
 }
 
 .profile-title {
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--color-gray-900);
-  margin-bottom: 24px;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
 }
 
-.profile-panel {
+.profile-alert {
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.profile-alert.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.profile-alert.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.profile-grid {
   display: grid;
-  gap: 16px;
-  background: var(--color-white);
-  border: 1px solid var(--color-gray-100);
-  border-radius: var(--radius-lg);
-  padding: 28px;
-  box-shadow: var(--shadow-sm);
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.profile-panel div {
+.profile-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.profile-section h2 {
+  font-size: 1.25rem;
+  color: #444;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.profile-info-row {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--color-gray-100);
-  transition: all 0.2s ease-in-out;
-  padding: 8px;
-  border-radius: var(--radius-sm);
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.profile-panel div:hover {
-  background-color: var(--color-gray-50);
-  transform: translateX(4px);
-  box-shadow: var(--shadow-sm);
+.profile-info-row:last-child {
+  border-bottom: none;
 }
 
-.profile-panel div:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
+.profile-info-row span {
+  color: #666;
 }
 
-.profile-panel span,
-.profile-state {
-  color: var(--color-gray-500);
+.profile-info-row strong {
+  color: #333;
 }
 
-.profile-panel strong {
-  color: var(--color-gray-900);
+.form-group {
+  margin-bottom: 1rem;
 }
 
-.profile-error {
-  color: var(--color-error);
+.profile-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.profile-input:focus {
+  border-color: #3498db;
+}
+
+.danger-zone {
+  border-left: 4px solid #e74c3c;
 }

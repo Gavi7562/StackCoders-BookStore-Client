@@ -14,32 +14,46 @@
 
 .book-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 24px;
+  justify-content: center;
+}
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+  .book-grid {
+    grid-template-columns: repeat(5, auto);
+  }
+}
+
+/* Desktop */
+@media (max-width: 1439px) and (min-width: 1024px) {
+  .book-grid {
+    grid-template-columns: repeat(4, auto);
+  }
+}
+
+/* Tablet */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .book-grid {
+    grid-template-columns: repeat(3, auto);
+  }
+}
+
+/* Small Tablet */
+@media (max-width: 767px) and (min-width: 481px) {
+  .book-grid {
+    grid-template-columns: repeat(2, auto);
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .book-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .book-grid-item {
   animation: fadeInUp 0.5s ease forwards;
   opacity: 0;
-}
-
-@media (max-width: 1024px) {
-  .book-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  .book-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  .book-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
 }

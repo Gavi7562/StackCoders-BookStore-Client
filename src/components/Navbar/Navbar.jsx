@@ -113,7 +113,7 @@ const Navbar = () => {
 
           {isAuthenticated ? (
             <div className="navbar-user-menu">
-              <Link to="/cart" className="navbar-cart-icon">
+              <Link to="/cart" className="navbar-cart-icon" title="Cart">
                 <FiShoppingCart size={22} />
                 {cart?.totalItems > 0 && <span className="cart-badge">{cart.totalItems}</span>}
               </Link>

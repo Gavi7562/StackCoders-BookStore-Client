@@ -5,6 +5,10 @@ const authService = {
     return api.post('/auth/login', { email, password });
   },
 
+  adminLogin: async (email, password) => {
+    return api.post('/admin/login', { email, password });
+  },
+
   signup: async (userData) => {
     const { confirmPassword, ...request } = userData;
     return api.post('/auth/register', request);
@@ -15,7 +19,9 @@ const authService = {
       return await api.post('/auth/logout');
     } finally {
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('userRole');
+      localStorage.removeItem('loginTime');
     }
   },
 

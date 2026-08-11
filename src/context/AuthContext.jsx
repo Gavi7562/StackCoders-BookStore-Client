@@ -4,20 +4,45 @@ import authService from '../services/authService';
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem('currentUser');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
   const [isAuthenticated, setIsAuthenticated] = useState(Boolean(localStorage.getItem('accessToken')));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const clearAuthData = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('loginTime');
+    // Ensure any leftover refresh token is cleared
+    localStorage.removeItem('refreshToken');
+  };
+
   const loadCurrentUser = async () => {
-    if (!localStorage.getItem('accessToken')) return;
+    if (!localStorage.getItem('accessToken')) {
+      clearAuthData();
+      setUser(null);
+      setIsAuthenticated(false);
+      return;
+    }
     try {
       const response = await authService.getCurrentUser();
-      setUser(response.data ?? response);
+      const fetchedUser = response.data ?? response;
+      setUser(fetchedUser);
       setIsAuthenticated(true);
+      if (fetchedUser) {
+        localStorage.setItem('currentUser', JSON.stringify({
+          id: fetchedUser.id || fetchedUser.userId,
+          username: fetchedUser.username,
+          email: fetchedUser.email
+        }));
+        localStorage.setItem('userRole', fetchedUser.role || 'USER');
+      }
     } catch {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      clearAuthData();
       setUser(null);
       setIsAuthenticated(false);
     }
@@ -34,10 +59,23 @@ export const AuthProvider = ({ children }) => {
       const response = await authService.login(email, password);
       const payload = response.data;
       const accessToken = payload?.accessToken ?? payload?.token;
-      const refreshToken = payload?.refreshToken;
-      if (accessToken) localStorage.setItem('accessToken', accessToken);
-      if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
-      setUser(payload?.user ?? payload?.authUserSummary ?? null);
+
+      if (accessToken) {
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('loginTime', new Date().toISOString());
+      }
+
+      const userPayload = payload?.user ?? payload?.authUserSummary ?? null;
+      if (userPayload) {
+        localStorage.setItem('currentUser', JSON.stringify({
+          id: userPayload.id || userPayload.userId,
+          username: userPayload.username,
+          email: userPayload.email
+        }));
+        localStorage.setItem('userRole', userPayload.role || 'USER');
+        setUser(userPayload);
+      }
+
       setIsAuthenticated(true);
       await loadCurrentUser();
       return { success: true };
@@ -66,12 +104,30 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     setLoading(true);
     try {
-      await authService.logout();
+      if (localStorage.getItem('accessToken')) {
+        await authService.logout();
+      }
+    } catch (err) {
+      console.warn("Logout API call failed, but clearing local session", err);
     } finally {
+      clearAuthData();
       setUser(null);
       setIsAuthenticated(false);
       setLoading(false);
+      window.location.href = '/login';
     }
+  };
+
+  const updateUserLocal = (updatedData) => {
+    setUser(prevUser => {
+      const newUser = { ...prevUser, ...updatedData };
+      localStorage.setItem('currentUser', JSON.stringify({
+        id: newUser.id || newUser.userId,
+        username: newUser.username,
+        email: newUser.email
+      }));
+      return newUser;
+    });
   };
 
   const value = useMemo(() => ({
@@ -83,6 +139,7 @@ export const AuthProvider = ({ children }) => {
     signup,
     logout,
     loadCurrentUser,
+    updateUserLocal,
   }), [user, isAuthenticated, loading, error]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

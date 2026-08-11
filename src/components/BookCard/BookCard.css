@@ -1,36 +1,49 @@
 .book-card {
-  background: var(--color-white);
-  border-radius: var(--radius-lg);
+  width: 300px;
+  height: 520px;
+  background: #FDFBF7;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-base);
-  border: 1px solid var(--color-gray-100);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border: 1px solid #EAEAEA;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 1023px) {
+  .book-card {
+    width: 240px;
+    height: 480px;
+  }
+}
+
+@media (max-width: 480px) {
+  .book-card {
+    width: 100%;
+    /* Keep identical height as required by the prompt "identical height" */
+    height: 520px;
+  }
 }
 
 .book-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.book-card:hover .book-card-image {
+  transform: scale(1.05);
 }
 
 .book-card-image-wrapper {
   position: relative;
   width: 100%;
-  padding-top: 130%;
-  /* Fixed aspect ratio */
-  overflow: hidden;
+  height: 52%;
   flex-shrink: 0;
-}
-
-.book-card-placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-gray-50);
+  overflow: hidden;
+  background-color: #ffffff;
+  border-bottom: 1px solid #EAEAEA;
 }
 
 .book-card-image {
@@ -39,13 +52,23 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  background-color: #EDEDED;
+  transition: transform 0.3s ease;
+  padding: 8px;
+}
+
+.book-card-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FDFBF7;
 }
 
 .book-card-placeholder-icon {
   font-size: 3rem;
   font-weight: 800;
-  color: var(--color-primary);
+  color: #6B1D2F;
   opacity: 0.3;
 }
 
@@ -53,62 +76,95 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
   flex: 1;
-  /* Take up remaining height */
+  overflow: hidden;
 }
 
 .book-card-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--color-gray-900);
-  line-height: 1.3;
+  font-size: 16px;
+  font-weight: bold;
+  color: #222222;
+  margin: 0 0 4px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: 2.6em;
-  /* Ensure uniform title height (2 lines) */
+  line-height: 1.2;
 }
 
 .book-card-author {
-  font-size: 0.8125rem;
-  color: var(--color-gray-500);
-  margin-bottom: 4px;
-}
-
-.book-card-description {
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  color: var(--color-gray-600);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  /* Fixed number of lines */
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
+  font-size: 14px;
+  color: #2C3E50;
+  margin: 0 0 8px 0;
+  white-space: nowrap;
   overflow: hidden;
-  margin-bottom: auto;
-  /* Push footer downwards */
+  text-overflow: ellipsis;
 }
 
-.book-card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--color-gray-100);
-}
-
-.book-card-price {
+.book-card-price-container {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin: 0 0 8px 0;
 }
 
 .price-current {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--color-gray-900);
+  font-size: 20px;
+  font-weight: bold;
+  color: #6B1D2F;
+}
+
+.price-original {
+  font-size: 14px;
+  color: #888;
+  text-decoration: line-through;
+}
+
+.price-discount {
+  font-size: 14px;
+  color: #2a9d8f;
+  font-weight: bold;
+}
+
+.book-card-description {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #555;
+  margin: 0 0 8px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 1023px) {
+  .book-card-description {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+}
+
+.book-card-stock {
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: auto;
+  margin-bottom: 12px;
+}
+
+.book-card-stock.in-stock {
+  color: #28a745;
+}
+
+.book-card-stock.low-stock {
+  color: #f4a261;
+}
+
+.book-card-stock.out-of-stock {
+  color: #e76f51;
+}
+
+.book-card-footer {
+  width: 100%;
 }
