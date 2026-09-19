@@ -143,6 +143,7 @@ const Login = () => {
               </div>
 
               <Button
+              style={{backgroundColor : '#2d9144'}}
                 type="submit"
                 variant="primary"
                 size="lg"
