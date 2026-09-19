@@ -196,9 +196,10 @@ const Signup = () => {
                                 touched={touched.confirmPassword}
                                 placeholder="Confirm your password"
                                 icon={FiLock}
-                            />
+                       col     />
 
                             <Button
+                               style={{backgroundColor : '#2d9144'}}
                                 type="submit"
                                 variant="primary"
                                 size="lg"
